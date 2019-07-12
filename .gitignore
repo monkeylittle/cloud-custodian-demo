@@ -10,3 +10,6 @@ crash.log
 
 # secrets
 .secrets
+
+# venv
+custodian

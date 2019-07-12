@@ -30,6 +30,10 @@ resource "aws_instance" "web_server" {
   instance_type = "t2.micro"
 
   key_name = "${module.ssh_key_pair.key_name}"
+
+  tags = {
+    AvailabilitySchedule = "off=[(M-F,20)];on=[(M-F,21)];tz=bst"
+  }
 }
 
 module "ssh_key_pair" {

@@ -1,0 +1,20 @@
+policies:
+  - name: offhours-stop
+    resource: ec2
+    filters:
+      - type: offhour
+        offhour: 20
+        tag: AvailabilitySchedule
+        default_tz: gmt
+    actions:
+      - stop
+
+  - name: offhours-start
+    resource: ec2
+    filters:
+      - type: onhour
+        onhour: 8
+        tag: AvailabilitySchedule
+        default_tz: gmt
+    actions:
+      - start
