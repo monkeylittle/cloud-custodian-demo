@@ -1,8 +1,8 @@
 
 data "aws_ami" "centos_7" {
-  most_recent      = true
+  most_recent = true
 
-  owners           = ["679593333241"]
+  owners = ["679593333241"]
 
   filter {
     name   = "name"
@@ -29,11 +29,17 @@ resource "aws_instance" "web_server" {
   ami           = "${data.aws_ami.centos_7.id}"
   instance_type = "t2.micro"
 
-  key_name = "${var.key_name}"
+  key_name = "${module.ssh_key_pair.key_name}"
 }
 
-module "keypair" {
-  source = "mitchellh/dynamic-keys/aws"
-  name = "${var.key_name}"
-  path   = "${path.root}/${var.key_path}"
+module "ssh_key_pair" {
+  source                = "git::https://github.com/cloudposse/terraform-aws-key-pair.git?ref=tags/0.4.0"
+  namespace             = "cloud-custodian-demo"
+  stage                 = "test"
+  name                  = "default"
+  ssh_public_key_path   = ".secrets"
+  generate_ssh_key      = "true"
+  private_key_extension = ".pem"
+  public_key_extension  = ".pub"
+  chmod_command         = "chmod 600 %v"
 }
