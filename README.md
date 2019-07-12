@@ -27,5 +27,5 @@ The terraform apply command will output the ARN of the IAM role to be used by Cl
 ### Run Cloud Custodian
 
 ```
-custodian run -r eu-west-1 -s . -m aws custodian.yml
+custodian run -r eu-west-1 -s . -m aws custodian-offhours.yml
 ```

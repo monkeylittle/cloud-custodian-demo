@@ -3,9 +3,10 @@ policies:
     mode:
       type: periodic
       schedule: rate(1 hour)
-      role: << cloud_custodian_offhours_role_arn >>
+      role: << CloudCustodianRoleForOffHours >>
       execution-options:
         metrics_enabled: true
+        log_group: /cloud_custodian/offhours
     resource: ec2
     filters:
       - type: offhour
@@ -19,9 +20,10 @@ policies:
     mode:
       type: periodic
       schedule: rate(1 hour)
-      role: << cloud_custodian_offhours_role_arn >>
+      role: << CloudCustodianRoleForOffHours >>
       execution-options:
         metrics_enabled: true
+        log_group: /cloud_custodian/offhours
     resource: ec2
     filters:
       - type: onhour
