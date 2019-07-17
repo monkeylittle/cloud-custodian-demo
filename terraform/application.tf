@@ -32,7 +32,10 @@ resource "aws_instance" "web_server" {
   key_name = "${module.ssh_key_pair.key_name}"
 
   tags = {
-    AvailabilitySchedule = "off=[(M-F,17)];on=[(M-F,9)];tz=bst"
+    Customer    = "Acme Inc."
+    Environment = "Production"
+
+    AvailabilitySchedule = "off=[(M-F,12)];on=[(M-F,9)];tz=bst"
   }
 }
 

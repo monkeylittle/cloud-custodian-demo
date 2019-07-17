@@ -6,7 +6,7 @@ policies:
       role: ${ cloud_custodian_role_arn }
       execution-options:
         metrics_enabled: true
-        log_group: /cloud_custodian/scheduled-availability
+        log_group: /cloud_custodian/scheduled_availability
     resource: ec2
     filters:
       - type: offhour
@@ -16,6 +16,7 @@ policies:
     actions:
       - type: stop
       - type: notify
+        slack_template: custodian-slack-ec2-stop-notification-template
         to:
           - ${ cloud_custodian_mailer_slack_hook_url }
         transport:
@@ -29,7 +30,7 @@ policies:
       role: ${ cloud_custodian_role_arn }
       execution-options:
         metrics_enabled: true
-        log_group: /cloud_custodian/scheduled-availability
+        log_group: /cloud_custodian/scheduled_availability
     resource: ec2
     filters:
       - type: onhour
@@ -39,6 +40,7 @@ policies:
     actions:
       - type: start
       - type: notify
+        slack_template: custodian-slack-ec2-start-notification-template
         to:
           - ${ cloud_custodian_mailer_slack_hook_url }
         transport:

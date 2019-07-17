@@ -1,0 +1,25 @@
+{
+   "attachments":[
+      {
+         "fallback":"Cloud Custodian Policy Violation",
+         "title":"Starting the Following EC2 Instances",
+         "color":"danger",
+         "fields":[
+            {
+               "title":"Account: {{ account }} | Region: {{ region }}",
+               "value":"{%- for resource in resources -%}
+                        {{ resource_tag(resource, "Customer") }} ({{ resource_tag(resource, "Environment") }}):
+                          Instance ID: {{ resource.InstanceId }}
+                          Instance Type: {{ resource.InstanceType }}
+                          Private IP: {{ resource.PrivateIpAddress }}
+                          Public IP: {{ resource.PublicIpAddress }}
+                        {%- endfor -%}"
+            }
+         ]
+      }
+   ],
+   {%- if not recipient.startswith('https://') %}
+   "channel":"{{ recipient }}",
+   {%- endif -%}
+   "username":"Custodian"
+}

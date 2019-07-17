@@ -90,9 +90,9 @@ resource "aws_cloudwatch_log_group" "cloud_custodian_scheduled_availability" {
 }
 
 resource "aws_sqs_queue" "cloud_custodian_mailer_queue" {
-  name                      = "cloud-custodian-mailer-queue"
+  name = "cloud-custodian-mailer-queue"
 
-  max_message_size          = 2048
+  max_message_size = 2048
   message_retention_seconds = 86400
   receive_wait_time_seconds = 10
 }

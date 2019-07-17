@@ -12,6 +12,7 @@ brew install terraform
 python3 -m venv custodian
 source custodian/bin/activate
 pip install c7n
+pip install c7n-mailer
 ```
 
 ### Create Demo AWS Environment
@@ -26,5 +27,5 @@ terraform apply --auto-approve
 
 ```
 custodian run -r eu-west-1 -s custodian/logs -m aws custodian-scheduled-availability-policy.yml
-c7n-mailer --config custodian-slack-notification-policy.yml --update-lambda
+c7n-mailer --config custodian-slack-notification-policy.yml --update-lambda -t template
 ```
