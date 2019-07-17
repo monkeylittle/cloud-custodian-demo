@@ -1,3 +1,6 @@
+# Cloud Custodian Policy Files
+custodian-*-policy.yml
+
 # Local .terraform directories
 **/.terraform/*
 
@@ -5,11 +8,14 @@
 *.tfstate
 *.tfstate.*
 
+# .tfvars files
+*.tfvars
+
 # Crash log files
 crash.log
 
-# secrets
-.secrets
-
 # venv
 custodian
+
+# Secrets
+.secrets
