@@ -1,4 +1,8 @@
 
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 data "aws_ami" "centos_7" {
   most_recent = true
 
@@ -25,18 +29,55 @@ data "aws_ami" "centos_7" {
   }
 }
 
-resource "aws_instance" "web_server" {
-  ami           = "${data.aws_ami.centos_7.id}"
+resource "aws_launch_template" "web_server" {
+  name_prefix   = "web-server-"
+
+  image_id      = "${data.aws_ami.centos_7.id}"
   instance_type = "t2.micro"
 
   key_name = "${module.ssh_key_pair.key_name}"
 
-  tags = {
-    Customer    = "Acme Inc."
-    Environment = "Production"
+  tag_specifications {
+    resource_type = "instance"
 
-    AvailabilitySchedule = "off=[(M-F,12)];on=[(M-F,9)];tz=bst"
+    tags = {
+      Customer = "Acme Inc."
+      Environment = "Production"
+    }
   }
+}
+
+resource "aws_autoscaling_group" "web_server" {
+  name = "Web Server ASG"
+
+  availability_zones = "${data.aws_availability_zones.available.names}"
+
+  desired_capacity   = 1
+  max_size           = 1
+  min_size           = 1
+
+  launch_template {
+    id      = "${aws_launch_template.web_server.id}"
+    version = "$Latest"
+  }
+
+  tags = [
+    {
+      key = "Customer"
+      value = "Acme Inc."
+      propagate_at_launch = false
+    },
+    {
+      key = "Environment"
+      value = "Production"
+      propagate_at_launch = false
+    },
+    {
+      key = "AvailabilitySchedule"
+      value = "off=[(M-F,11)];on=[(M-F,9)];tz=bst"
+      propagate_at_launch = false
+    }
+  ]
 }
 
 module "ssh_key_pair" {

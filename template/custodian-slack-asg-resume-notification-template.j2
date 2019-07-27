@@ -1,0 +1,22 @@
+{
+   "attachments":[
+      {
+         "fallback":"Cloud Custodian Policy Violation",
+         "title":"Resuming the Following Auto Scaling Groups",
+         "color":"danger",
+         "fields":[
+            {
+               "title":"Account: {{ account }} | Region: {{ region }}",
+               "value":"{%- for resource in resources -%}
+                        {{ resource_tag(resource, "Customer") }} ({{ resource_tag(resource, "Environment") }}):
+                          Name: {{ resource.autoScalingGroupName }}
+                        {%- endfor -%}"
+            }
+         ]
+      }
+   ],
+   {%- if not recipient.startswith('https://') %}
+   "channel":"{{ recipient }}",
+   {%- endif -%}
+   "username":"Custodian"
+}
