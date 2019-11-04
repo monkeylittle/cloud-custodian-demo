@@ -2,7 +2,7 @@ policies:
   - name: ebs-copy-instance-tags
     mode:
       type: periodic
-      schedule: rate(1 hour)
+      schedule: rate(15 minutes)
       role: ${ cloud_custodian_role_arn }
       execution-options:
         metrics_enabled: true

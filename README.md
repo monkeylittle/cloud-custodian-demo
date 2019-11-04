@@ -25,6 +25,8 @@ terraform apply --auto-approve
 
 ### Run Cloud Custodian
 
+#### Enforce EC2 Copy Instance Tags Policy
+
 ```
 custodian run -r eu-west-1 -s custodian/logs -m aws custodian-aws-asg-scheduled-availability-policy.yml
 c7n-mailer --config custodian-aws-slack-notification-policy.yml --update-lambda -t template
