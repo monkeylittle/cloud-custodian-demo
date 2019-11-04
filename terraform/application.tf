@@ -30,7 +30,7 @@ data "aws_ami" "centos_7" {
 }
 
 resource "aws_launch_template" "web_server" {
-  name_prefix   = "web-server-"
+  name_prefix = "web-server-"
 
   image_id      = "${data.aws_ami.centos_7.id}"
   instance_type = "t2.micro"
@@ -41,7 +41,7 @@ resource "aws_launch_template" "web_server" {
     resource_type = "instance"
 
     tags = {
-      Customer = "Acme Inc."
+      Customer    = "Acme Inc."
       Environment = "Production"
     }
   }
@@ -52,9 +52,9 @@ resource "aws_autoscaling_group" "web_server" {
 
   availability_zones = "${data.aws_availability_zones.available.names}"
 
-  desired_capacity   = 1
-  max_size           = 1
-  min_size           = 1
+  desired_capacity = 1
+  max_size         = 1
+  min_size         = 1
 
   launch_template {
     id      = "${aws_launch_template.web_server.id}"
@@ -63,18 +63,18 @@ resource "aws_autoscaling_group" "web_server" {
 
   tags = [
     {
-      key = "Customer"
-      value = "Acme Inc."
-      propagate_at_launch = false
+      key                 = "Customer"
+      value               = "Acme Inc."
+      propagate_at_launch = true
     },
     {
-      key = "Environment"
-      value = "Production"
-      propagate_at_launch = false
+      key                 = "Environment"
+      value               = "Production"
+      propagate_at_launch = true
     },
     {
-      key = "AvailabilitySchedule"
-      value = "off=[(M-F,11)];on=[(M-F,9)];tz=bst"
+      key                 = "AvailabilitySchedule"
+      value               = "off=[(M-F,11)];on=[(M-F,9)];tz=bst"
       propagate_at_launch = false
     }
   ]
